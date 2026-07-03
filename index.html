@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="uk">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Підкорюй Україну!</title>
+		<meta
+			name="description"
+			content="Досліджуй найкрасивіші місця України: гори, озера, водоспади, замки та печери. Плануй пригоди, відкривай нові маршрути."
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+		/>
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+		<link rel="stylesheet" href="./style.css" />
+		<script src="./main.js" defer></script>
+	</head>
+	<body>
+		<div id="loader">
+			<div class="loader-logo">Підкорюй Україну</div>
+			<div class="loader-sub">Відкрий Україну заново</div>
+			<div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+		</div>
+
+		<nav id="main-nav">
+			<a href="#" class="nav-logo">Підкорюй Україну</a>
+			<ul class="nav-links">
+				<li><a href="#places">Місця</a></li>
+				<li><a href="#map-section">Карта</a></li>
+				<li><a href="#gamification">Досягнення</a></li>
+				<li><a href="#routes">Маршрути</a></li>
+				<li><a href="https://savelife.in.ua/">Повернись живим</a></li>
+			</ul>
+			<div class="nav-cta-wrap">
+				<a href="#map-section" class="nav-cta">Почати подорож</a>
+			</div>
+			<button class="nav-burger" id="burger" aria-label="Меню">
+				<span></span><span></span><span></span>
+			</button>
+		</nav>
+
+		<div class="mobile-menu" id="mobile-menu">
+			<button class="mobile-close" id="menu-close">✕</button>
+			<a href="#places" onclick="closeMob()">Місця</a>
+			<a href="#map-section" onclick="closeMob()">Карта</a>
+			<a href="#gamification" onclick="closeMob()">Досягнення</a>
+			<a href="#routes" onclick="closeMob()">Маршрути</a>
+			<a
+				href="#map-section"
+				onclick="closeMob()"
+				class="nav-cta"
+				style="font-size: 1rem; padding: 0.8rem 2rem"
+				>Почати подорож</a
+			>
+		</div>
+
+		<section id="hero">
+			<div class="hero-bg"></div>
+			<div class="hero-particles" id="particles"></div>
+			<div class="hero-content">
+				<div class="hero-eyebrow">🇺🇦 Відкрий. Досліджуй. Підкорюй.</div>
+				<h1 class="hero-title">Відкрий<br /><em>Україну</em> заново</h1>
+				<p class="hero-sub">
+					485 унікальних локацій, 25 регіонів, нескінченні пригоди.
+					Твій шлях починається тут.
+				</p>
+				<div class="hero-btns">
+					<a href="#map-section" class="btn-primary"
+						>Почати подорож</a
+					>
+					<a href="#places" class="btn-ghost">Дивитись місця</a>
+				</div>
+			</div>
+			<div class="hero-stats">
+				<div class="stat-item">
+					<div class="stat-num" data-target="485" data-count>0</div>
+					<div class="stat-label">Локацій</div>
+				</div>
+				<div class="stat-item">
+					<div class="stat-num" data-target="25" data-count>0</div>
+					<div class="stat-label">Регіонів</div>
+				</div>
+				<div class="stat-item">
+					<div class="stat-num" data-target="12400" data-count>0</div>
+					<div class="stat-label">Мандрівників</div>
+				</div>
+				<div class="stat-item">
+					<div class="stat-num" data-target="98" data-count>0</div>
+					<div class="stat-label">% Рейтинг</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="places">
+			<div class="container">
+				<div class="reveal">
+					<div class="section-eyebrow">— Обрані місця</div>
+					<h2 class="section-title">
+						Найкрасивіші куточки<br /><em>цієї землі</em>
+					</h2>
+					<p class="section-sub">
+						Від карпатських вершин до кримськотатарських ущелин —
+						Україна ховає краси, що захоплюють дух.
+					</p>
+				</div>
+				<div class="places-grid reveal">
+					<div
+						class="place-card"
+						onclick="showToast('🏔️ Говерла додана до маршруту!')"
+					>
+						<div
+							class="place-card-bg"
+							style="
+								background: linear-gradient(
+									135deg,
+									#1a2a4a,
+									#0d1a35
+								);
+								background-image: url(./img/Фото-Карпат-5.jpg);
+								background-size: cover;
+							"
+						></div>
+						<div class="place-card-overlay"></div>
+						<div class="place-tag">⛰️ Гора</div>
+						<div class="place-card-content">
+							<div class="place-cat">Карпати</div>
+							<div class="place-name">Говерла</div>
+							<div class="place-loc">
+								📍 Івано-Франківська обл. · 2061 м
+							</div>
+						</div>
+					</div>
+					<div
+						class="place-card"
+						onclick="
+							showToast(
+								'🏰 Хотинська фортеця додана до маршруту!',
+							)
+						"
+					>
+						<div
+							class="place-card-bg"
+							style="
+								background: linear-gradient(
+									135deg,
+									#2a1a0d,
+									#1a0d08
+								);
+								background-image: url(./img/хотинська-фортеця-2.jpeg);
+								background-size: cover;
+							"
+						></div>
+						<div class="place-card-overlay"></div>
+						<div class="place-tag">🏰 Замок</div>
+						<div class="place-card-content">
+							<div class="place-cat">Поділля</div>
+							<div class="place-name">Хотинська фортеця</div>
+							<div class="place-loc">
+								📍 Чернівецька обл. · XIII ст.
+							</div>
+						</div>
+					</div>
+					<div
+						class="place-card"
+						onclick="showToast('💧 Манявський водоспад додано!')"
+					>
+						<div
+							class="place-card-bg"
+							style="
+								background: linear-gradient(
+									135deg,
+									#0d1a2a,
+									#051020
+								);
+								background-image: url(./img/водоспад-манявський.jpeg);
+								background-size: cover;
+							"
+						></div>
+						<div class="place-card-overlay"></div>
+						<div class="place-tag">💧 Водоспад</div>
+						<div class="place-card-content">
+							<div class="place-cat">Карпати</div>
+							<div class="place-name">Манявський водоспад</div>
+							<div class="place-loc">
+								📍 Івано-Франківська обл.
+							</div>
+						</div>
+					</div>
+					<div
+						class="place-card"
+						onclick="showToast('🌊 Синевир додано до обраного!')"
+					>
+						<div
+							class="place-card-bg"
+							style="
+								background: linear-gradient(
+									135deg,
+									#0d2a1a,
+									#071510
+								);
+								background-image: url(./img/1508689396_1508686392_ozero-sinevir-3.jpg);
+								background-size: cover;
+							"
+						></div>
+						<div class="place-card-overlay"></div>
+						<div class="place-tag">🏞️ Озеро</div>
+						<div class="place-card-content">
+							<div class="place-cat">Карпати</div>
+							<div class="place-name">Синевир</div>
+							<div class="place-loc">
+								📍 Закарпатська обл. · 989 м
+							</div>
+						</div>
+					</div>
+					<div
+						class="place-card"
+						onclick="showToast('🏛️ Олеський замок додано!')"
+					>
+						<div
+							class="place-card-bg"
+							style="
+								background: linear-gradient(
+									135deg,
+									#2a2a0d,
+									#1a1a07
+								);
+								background-image: url(./img/oleskyi-zamok-6.webp);
+								background-size: cover;
+							"
+						></div>
+						<div class="place-card-overlay"></div>
+						<div class="place-tag">🏛️ Замок</div>
+						<div class="place-card-content">
+							<div class="place-cat">Галичина</div>
+							<div class="place-name">Олеський замок</div>
+							<div class="place-loc">
+								📍 Львівська обл. · XIV ст.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="divider">
+			<div
+				class="divider-bg"
+				style="background: linear-gradient(135deg, #0d1a35, #1a0d08)"
+			></div>
+			<div class="divider-overlay"></div>
+			<div class="divider-text">
+				"Україна — це не просто країна. Це <span>поема</span>, написана
+				горами, річками і часом."
+			</div>
+		</div>
+
+		<section id="map-section">
+			<div class="container">
+				<div class="map-header reveal">
+					<div class="section-eyebrow">— Інтерактивна карта</div>
+					<h2 class="section-title">
+						Відкрий кожен<br /><em>куточок України</em>
+					</h2>
+					<p class="section-sub">
+						Досліджуй 485 унікальних локацій на інтерактивній карті.
+						Натисни на маркер — і відкрий нову пригоду.
+					</p>
+				</div>
+				<div class="map-controls reveal">
+					<button class="filter-btn active" data-cat="all">
+						Всі місця
+					</button>
+					<button class="filter-btn" data-cat="mountain">
+						⛰️ Гори
+					</button>
+					<button class="filter-btn" data-cat="lake">🏞️ Озера</button>
+					<button class="filter-btn" data-cat="waterfall">
+						💧 Водоспади
+					</button>
+					<button class="filter-btn" data-cat="castle">
+						🏰 Замки
+					</button>
+					<button class="filter-btn" data-cat="cave">
+						🕳️ Печери
+					</button>
+					<button class="filter-btn" data-cat="park">🌲 Парки</button>
+					<button class="filter-btn" data-cat="abandoned">
+						🏚️ Покинуті
+					</button>
+				</div>
+				<div class="map-search reveal">
+					<input
+						type="text"
+						id="map-search-input"
+						placeholder="🔍 Пошук локацій..."
+					/>
+				</div>
+				<div class="map-wrap reveal glow-anim">
+					<div id="ukraine-map"></div>
+				</div>
+			</div>
+		</section>
+		<section id="gamification">
+			<div class="container">
+				<div class="reveal">
+					<div class="section-eyebrow">— Геймфікація</div>
+					<h2 class="section-title">
+						Стань легендарним<br /><em>мандрівником</em>
+					</h2>
+					<p class="section-sub">
+						Збирай XP, відкривай досягнення, змагайся з іншими
+						дослідниками України.
+					</p>
+				</div>
+				<div class="game-grid reveal">
+					<div class="game-card">
+						<div class="game-icon">🏆</div>
+						<div class="game-title">Рівень мандрівника</div>
+						<div class="game-desc">
+							Поточний рівень:
+							<strong style="color: var(--gold)"
+								>Дослідник III</strong
+							>
+							· 2450 XP
+						</div>
+						<div class="progress-bar">
+							<div class="progress-fill" style="width: 65%"></div>
+						</div>
+						<div
+							style="
+								font-size: 0.7rem;
+								color: var(--text-muted);
+								margin-top: 0.5rem;
+							"
+						>
+							До наступного рівня: 550 XP
+						</div>
+					</div>
+					<div class="game-card">
+						<div class="game-icon">📍</div>
+						<div class="game-title">Відвідані місця</div>
+						<div class="game-desc">
+							Ти відвідав
+							<strong style="color: var(--gold)"
+								>23 локації</strong
+							>
+							з 485 можливих
+						</div>
+						<div class="progress-bar">
+							<div class="progress-fill" style="width: 5%"></div>
+						</div>
+						<div
+							style="
+								font-size: 0.7rem;
+								color: var(--text-muted);
+								margin-top: 0.5rem;
+							"
+						>
+							5% України досліджено
+						</div>
+					</div>
+					<div class="game-card">
+						<div class="game-icon">🗺️</div>
+						<div class="game-title">Відкриті регіони</div>
+						<div class="game-desc">
+							Досліджено
+							<strong style="color: var(--gold)"
+								>7 регіонів</strong
+							>
+							з 25 областей
+						</div>
+						<div class="progress-bar">
+							<div class="progress-fill" style="width: 28%"></div>
+						</div>
+						<div
+							style="
+								font-size: 0.7rem;
+								color: var(--text-muted);
+								margin-top: 0.5rem;
+							"
+						>
+							28% карти відкрито
+						</div>
+					</div>
+				</div>
+				<div class="reveal" style="margin-top: 3rem">
+					<div class="section-eyebrow" style="margin-bottom: 1.5rem">
+						— Значки досягнень
+					</div>
+					<div class="achievements-row">
+						<div
+							class="badge earned"
+							onclick="showToast('🦅 Орел Карпат: +500 XP!')"
+						>
+							<div class="badge-icon">🦅</div>
+							<div class="badge-info">
+								<div class="badge-name">Орел Карпат</div>
+								<div class="badge-xp">+500 XP · Отримано</div>
+							</div>
+						</div>
+						<div
+							class="badge earned"
+							onclick="showToast('🌊 Охоронець озер: +300 XP!')"
+						>
+							<div class="badge-icon">🌊</div>
+							<div class="badge-info">
+								<div class="badge-name">Охоронець озер</div>
+								<div class="badge-xp">+300 XP · Отримано</div>
+							</div>
+						</div>
+						<div
+							class="badge earned"
+							onclick="showToast('🏰 Лицар замків: +400 XP!')"
+						>
+							<div class="badge-icon">🏰</div>
+							<div class="badge-info">
+								<div class="badge-name">Лицар замків</div>
+								<div class="badge-xp">+400 XP · Отримано</div>
+							</div>
+						</div>
+						<div
+							class="badge"
+							onclick="
+								showToast(
+									'🔒 Підкори 10 водоспадів щоб відкрити!',
+								)
+							"
+						>
+							<div
+								class="badge-icon"
+								style="filter: grayscale(1); opacity: 0.4"
+							>
+								💧
+							</div>
+							<div class="badge-info">
+								<div
+									class="badge-name"
+									style="color: var(--text-muted)"
+								>
+									Ловець водоспадів
+								</div>
+								<div
+									class="badge-xp"
+									style="color: var(--text-muted)"
+								>
+									+350 XP · Заблоковано
+								</div>
+							</div>
+						</div>
+						<div
+							class="badge"
+							onclick="
+								showToast('🔒 Відвідай 5 печер щоб відкрити!')
+							"
+						>
+							<div
+								class="badge-icon"
+								style="filter: grayscale(1); opacity: 0.4"
+							>
+								🕳️
+							</div>
+							<div class="badge-info">
+								<div
+									class="badge-name"
+									style="color: var(--text-muted)"
+								>
+									Печерний дослідник
+								</div>
+								<div
+									class="badge-xp"
+									style="color: var(--text-muted)"
+								>
+									+600 XP · Заблоковано
+								</div>
+							</div>
+						</div>
+						<div
+							class="badge"
+							onclick="
+								showToast('🔒 Пройди 500 км щоб відкрити!')
+							"
+						>
+							<div
+								class="badge-icon"
+								style="filter: grayscale(1); opacity: 0.4"
+							>
+								🌟
+							</div>
+							<div class="badge-info">
+								<div
+									class="badge-name"
+									style="color: var(--text-muted)"
+								>
+									Легенда України
+								</div>
+								<div
+									class="badge-xp"
+									style="color: var(--text-muted)"
+								>
+									+2000 XP · Заблоковано
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="leaderboard reveal">
+					<div class="lb-header">🏆 Таблиця лідерів</div>
+					<div class="lb-row">
+						<div class="lb-rank top">1</div>
+						<div class="lb-user">
+							<div
+								class="lb-avatar"
+								style="
+									background: linear-gradient(
+										135deg,
+										#c9a84c,
+										#8a6e32
+									);
+								"
+							>
+								ТШ
+							</div>
+							<div>
+								<div class="lb-name">Тарас Шевченко</div>
+								<div class="lb-places">
+									142 місця · Київська
+								</div>
+							</div>
+						</div>
+						<div class="lb-xp">18,400 XP</div>
+						<div class="lb-level">Легенда</div>
+					</div>
+					<div class="lb-row">
+						<div class="lb-rank top">2</div>
+						<div class="lb-user">
+							<div
+								class="lb-avatar"
+								style="
+									background: linear-gradient(
+										135deg,
+										#1a3a6e,
+										#2563eb
+									);
+								"
+							>
+								ІМ
+							</div>
+							<div>
+								<div class="lb-name">Іван Мазепа</div>
+								<div class="lb-places">
+									118 місць · Львівська
+								</div>
+							</div>
+						</div>
+						<div class="lb-xp">14,200 XP</div>
+						<div class="lb-level">Майстер</div>
+					</div>
+					<div class="lb-row">
+						<div class="lb-rank top">3</div>
+						<div class="lb-user">
+							<div
+								class="lb-avatar"
+								style="
+									background: linear-gradient(
+										135deg,
+										#2a6e1a,
+										#16a34a
+									);
+								"
+							>
+								ЛО
+							</div>
+							<div>
+								<div class="lb-name">Левко Основ'яненко</div>
+								<div class="lb-places">97 місць · Карпати</div>
+							</div>
+						</div>
+						<div class="lb-xp">11,850 XP</div>
+						<div class="lb-level">Дослідник</div>
+					</div>
+					<div class="lb-row">
+						<div class="lb-rank">4</div>
+						<div class="lb-user">
+							<div
+								class="lb-avatar"
+								style="
+									background: linear-gradient(
+										135deg,
+										#3a1a6e,
+										#7c3aed
+									);
+								"
+							>
+								ВС
+							</div>
+							<div>
+								<div class="lb-name">Василь Стус</div>
+								<div class="lb-places">
+									84 місця · Харківська
+								</div>
+							</div>
+						</div>
+						<div class="lb-xp">9,600 XP</div>
+						<div class="lb-level">Авантюрист</div>
+					</div>
+					<div class="lb-row">
+						<div class="lb-rank">5</div>
+						<div class="lb-user">
+							<div
+								class="lb-avatar"
+								style="
+									background: linear-gradient(
+										135deg,
+										#6e1a1a,
+										#dc2626
+									);
+								"
+							>
+								АМ
+							</div>
+							<div>
+								<div class="lb-name">Андрій Мельник</div>
+								<div class="lb-places">71 місце · Одеська</div>
+							</div>
+						</div>
+						<div class="lb-xp">7,900 XP</div>
+						<div class="lb-level">Мандрівник</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="routes">
+			<div class="container">
+				<div class="reveal">
+					<div class="section-eyebrow">— Маршрути</div>
+					<h2 class="section-title">
+						Готові пригоди<br /><em>для тебе</em>
+					</h2>
+					<p class="section-sub">
+						Спеціально підібрані маршрути від досвідчених
+						дослідників. Зберігай, редагуй, ділись.
+					</p>
+				</div>
+				<div class="routes-grid reveal">
+					<div
+						class="route-card"
+						onclick="
+							showToast(
+								'✅ Карпатський треккінг збережено в «Мої маршрути»',
+							)
+						"
+					>
+						<div class="route-header">
+							<div>
+								<div class="route-name">
+									Карпатський треккінг
+								</div>
+								<div class="route-region">
+									📍 Карпати · Івано-Франківська
+								</div>
+							</div>
+							<span class="route-difficulty hard">Складний</span>
+						</div>
+						<div class="route-stops">
+							<span class="stop-tag">Говерла</span>
+							<span class="stop-tag">Петрос</span>
+							<span class="stop-tag">Синевир</span>
+							<span class="stop-tag">Довбуш</span>
+							<span class="stop-tag">+3</span>
+						</div>
+						<div class="route-meta">
+							<div class="route-meta-item">
+								<strong>7 днів</strong>Тривалість
+							</div>
+							<div class="route-meta-item">
+								<strong>89 км</strong>Відстань
+							</div>
+							<div class="route-meta-item">
+								<strong>8,200 м</strong>Набір висоти
+							</div>
+						</div>
+					</div>
+					<div
+						class="route-card"
+						onclick="showToast('✅ Замки Поділля збережено!')"
+					>
+						<div class="route-header">
+							<div>
+								<div class="route-name">Замки Поділля</div>
+								<div class="route-region">
+									📍 Поділля · Хмельницька / Тернопільська
+								</div>
+							</div>
+							<span class="route-difficulty easy">Легкий</span>
+						</div>
+						<div class="route-stops">
+							<span class="stop-tag">Кам'янець-Подільський</span>
+							<span class="stop-tag">Хотин</span>
+							<span class="stop-tag">Меджибіж</span>
+							<span class="stop-tag">+2</span>
+						</div>
+						<div class="route-meta">
+							<div class="route-meta-item">
+								<strong>3 дні</strong>Тривалість
+							</div>
+							<div class="route-meta-item">
+								<strong>240 км</strong>На авто
+							</div>
+							<div class="route-meta-item">
+								<strong>5 замків</strong>Зупинки
+							</div>
+						</div>
+					</div>
+					<div
+						class="route-card"
+						onclick="showToast('✅ Водоспади Карпат збережено!')"
+					>
+						<div class="route-header">
+							<div>
+								<div class="route-name">Водоспади Карпат</div>
+								<div class="route-region">
+									📍 Карпати · Закарпаття / Прикарпаття
+								</div>
+							</div>
+							<span class="route-difficulty medium"
+								>Середній</span
+							>
+						</div>
+						<div class="route-stops">
+							<span class="stop-tag">Манявський</span>
+							<span class="stop-tag">Гук</span>
+							<span class="stop-tag">Шипіт</span>
+							<span class="stop-tag">Труфанець</span>
+						</div>
+						<div class="route-meta">
+							<div class="route-meta-item">
+								<strong>4 дні</strong>Тривалість
+							</div>
+							<div class="route-meta-item">
+								<strong>45 км</strong>Відстань
+							</div>
+							<div class="route-meta-item">
+								<strong>6 водоспадів</strong>Зупинки
+							</div>
+						</div>
+					</div>
+					<div
+						class="route-card"
+						onclick="showToast('✅ Підземна Україна збережено!')"
+					>
+						<div class="route-header">
+							<div>
+								<div class="route-name">Підземна Україна</div>
+								<div class="route-region">
+									📍 Вінницька / Тернопільська обл.
+								</div>
+							</div>
+							<span class="route-difficulty medium"
+								>Середній</span
+							>
+						</div>
+						<div class="route-stops">
+							<span class="stop-tag">Кришталева печера</span>
+							<span class="stop-tag">Млинки</span>
+							<span class="stop-tag">Вертеба</span>
+						</div>
+						<div class="route-meta">
+							<div class="route-meta-item">
+								<strong>2 дні</strong>Тривалість
+							</div>
+							<div class="route-meta-item">
+								<strong>180 км</strong>На авто
+							</div>
+							<div class="route-meta-item">
+								<strong>3 печери</strong>Зупинки
+							</div>
+						</div>
+					</div>
+				</div>
+				<div style="text-align: center; margin-top: 3rem">
+					<button
+						class="btn-primary"
+						onclick="
+							showToast('🛠️ Конструктор маршрутів — незабаром!')
+						">
+						Створити власний маршрут
+					</button>
+				</div>
+			</div>
+		</section>
+
+		<footer>
+			<div class="container">
+				<div class="footer-grid">
+					<div class="footer-brand">
+						<span class="nav-logo">Підкорюй Україну</span>
+						<p class="footer-desc">
+							Відкривай найкрасивіші куточки рідної землі. Плануй
+							маршрути, збирай досягнення, ставай легендою.
+						</p>
+					</div>
+					<div>
+						<div class="footer-col-title">Навігація</div>
+						<ul class="footer-links">
+							<li><a href="#places">Місця</a></li>
+							<li><a href="#map-section">Карта</a></li>
+							<li><a href="#gamification">Досягнення</a></li>
+							<li><a href="#routes">Маршрути</a></li>
+						</ul>
+					</div>
+					<div>
+						<div class="footer-col-title">Категорії</div>
+						<ul class="footer-links">
+							<li><a href="#map-section">⛰️ Гори</a></li>
+							<li><a href="#map-section">🏞️ Озера</a></li>
+							<li><a href="#map-section">🏰 Замки</a></li>
+							<li><a href="#map-section">🕳️ Печери</a></li>
+							<li><a href="#map-section">💧 Водоспади</a></li>
+						</ul>
+					</div>
+					<div>
+						<div class="footer-col-title">Проект</div>
+						<ul class="footer-links">
+							<li><a href="#">Додати місце</a></li>
+							<li><a href="https://github.com/reflexow9">Мій Github</a></li>
+							<li><a href="mailto:artembond.corporation@gmail.com">Написати мені</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<div class="footer-copy">
+						© 2026 Підкорюй Україну· Автор: Бондарев Артем ·
+						Зроблено з ❤️
+					</div>
+					<div class="footer-socials">
+						<a class="social-link" href="https://github.com/reflexow9" title="Githab">📸</a>
+						<a class="social-link" href="mailto:artembond.corporation@gmail.com" title="Email">✈️</a>
+						<a class="social-link" href="https://www.linkedin.com/in/artem-bondarev-w99999/" title="linkedin">🎵</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<div class="toast" id="toast"></div>
+	</body>
+</html>
